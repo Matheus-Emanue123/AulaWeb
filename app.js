@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 });
 
 app.get('/', (req, res) => {
-  res.send("Backend Matheus Emanuel da Silva Rodando..." )
+  res.send("Backend de Matheus Emanuel da Silva Rodando..." )
 })
 
 app.get('/cliente', (req, res) => {
@@ -27,6 +27,67 @@ app.get('/cliente', (req, res) => {
     }
   );
 })
+
+app.get('/cliente/:id_cliente', (req, res) => {
+ var id_cliente = req.params.id_cliente
+  connection.query(
+    `select * from cliente where id_cliente = ${id_cliente}`,
+    (err, results, fields) => {
+      if(err) console.log(err)
+      res.send(results)
+    }
+  );
+})
+
+app.get('/cliente_email/:email', (req, res) => {
+  var email = req.params.email
+   connection.query(
+     `select * from cliente where email = "${email}"`,
+     (err, results, fields) => {
+       if(err) console.log(err)
+       console.log(results)
+      if(results.lenght > 0) res.send({existe : true})
+      else res.send({existe : false})
+     }
+   );
+ })
+ 
+app.post('/cliente_del/:id_cliente', (req, res) => {
+  var id_cliente = req.params.id_cliente
+   connection.query(
+     `select * from cliente where id_cliente = ${id_cliente}`,
+     (err, results, fields) => {
+       if(err) console.log(err)
+       res.send(results)
+     }
+   );
+})
+
+app.post('/cliente', (req, res)=> {
+  var nome = req.body.nome
+  var sobrenome = req.body.sobrenome
+  var email = req.body.email
+  var data_cadastro = moment().format("yyyy-mm-dd")
+  var salario = req.body.salario
+  var sql = `insert into cliente (nome, sobrenome, email, `+
+         `dta_cadastro, salario) values ("${nome}", "${sobrenome}", "${email}, "${data_cadastro}"${salario})`
+         connection.query(sql, (erro, resultado)=>{
+          if(erro) res.send(erro)
+          res,send(resultado)
+         })
+})
+
+app.patch('/cliente', (req, res)=> {
+  var sql = `update cliente (nome, sobrenome, email, `+
+  `dta_cadastro, salario) values ("${nome}", "${sobrenome}", "${email}, "${data_cadastro}"${salario})`
+  connection.query(sql, (erro, resultado)=>{
+         connection.query(sql, (erro, resultado)=>{
+          if(erro) res.send(erro)
+          res,send(resultado)
+         })
+})
+})
+
 
 
 app.listen(port, () => {
