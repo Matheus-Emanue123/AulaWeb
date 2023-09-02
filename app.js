@@ -69,7 +69,7 @@ app.get('/fornecedor/:id_fornecedor', (req, res) => {
     connection.query(sql, (erro, resultado) =>{
        if(erro) res.send(erro)
        console.log(req.files)
-        var caminhoTemp = req.files.avatar.path
+        var caminhoTemp = req.files.logomarca.path
         var caminhoNovo = `./uploads/fornecedor/${resultado.insertId} .png`
         fs.copyFile(caminhoTemp, caminhoNovo, (err) => {
           console.log(err)
@@ -87,7 +87,7 @@ app.get('/fornecedor/:id_fornecedor', (req, res) => {
 connection.query(sql, (erro, resultado) =>{
  if(erro) res.send(erro)
  console.log(req.files)
-  var caminhoTemp = req.files.avatar.path
+  var caminhoTemp = req.files.logomarca.path
   var caminhoNovo = `./uploads/fornecedor/${resultado.insertId} .png`
   fs.copyFile(caminhoTemp, caminhoNovo, (err) => {
     console.log(err)
